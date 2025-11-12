@@ -3,6 +3,7 @@ import notesRoutes from "./routes/notesRoutes.js";
 import { connectDB } from "./config/db.js";
 import dotenv from "dotenv";
 import rateLimiter from "./middleware/rateLimiter.js";
+import cors from "cors"
 
  dotenv.config();
 
@@ -11,13 +12,23 @@ import rateLimiter from "./middleware/rateLimiter.js";
 // console.log(process.env.MONGO_URI);
 
 const app = express();
-const PORT= process.env.Port || 5001
+const PORT= process.env.Port || 5001;
 
 connectDB();
 
 //middleware
+app.use(
+    cors({
+    origin:"http://localhost:5173",
+})
+);
 app.use(express.json()); // this middleware will parse JSON bodies: req.body
-app.use(rateLimiter)
+app.use(rateLimiter);
+// app.use(
+//     cors({
+//     origin:"http://localhost:5173",
+// })
+// );
 
 
 
